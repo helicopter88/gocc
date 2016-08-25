@@ -1,54 +1,6 @@
-package gocc
+package scanner
 
 type Token int
-
-const (
-	start Token = iota
-
-	start_lit
-	TRUE_LITER
-	FALSE_LITER
-	INT_LITER
-	CHAR_LIT
-	STR_LIT
-	end_lit
-	begin_kw
-	BEGIN
-	END
-	NULL
-	READ
-	FREE
-	RETURN
-	EXIT
-	PRINT
-	IF
-	THEN
-	ELSE
-	FI
-	WHILE
-	CALL
-	end_kw
-	begin_type
-	INT_T
-	CHAR_T
-	STRING_T
-	end_type
-	ID
-	begin_symbol
-	PLUS,
-	MINUS,
-	DIV,
-	REM,
-	MUL,
-	LPAREN
-	RPAREN
-	LBRACE
-	RBRACE
-	end_symbol
-	COMMENT
-	ILLEGAL
-	end
-)
 
 
 var tok_strings = map[Token]string{
@@ -61,6 +13,7 @@ var tok_strings = map[Token]string{
 	STR_LIT: "[\".*?\"]",
 	LPAREN:  "(",
 	RPAREN:  ")",
+	ASSIGN: "=",
 	PLUS: "+",
 	MINUS: "-",
 	MUL: "*",
@@ -86,6 +39,7 @@ var tok_strings = map[Token]string{
 	ID: "id",
 	LBRACE: "{",
 	RBRACE: "}",
+	EOF: "",
 }
 
 func (t Token) IsLiteral() bool {

@@ -1,15 +1,14 @@
-package gocc
+package scanner
 
 import (
 	"bufio"
 	"os"
-
 	"io"
 )
 
 type  File struct {
 	Lines []string
-	index int
+	currentLn int
 	maxLen int
 }
 
@@ -24,18 +23,19 @@ func NewFile(src string) (*File, error) {
 	f := new(File)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		append(f.Lines, scanner.Text())
+		f.Lines = append(f.Lines, scanner.Text())
 	}
 
-	f.index = -1
+	f.currentLn = 0
 	f.maxLen = len(f.Lines)
-	return f
+	return f, nil
 }
 
-func (f *File) nextLine() (string, error) {
-	if f.index >= f.maxLen {
-		return nil, io.EOF
+func (f *File) NextLine() (string, error) {
+	if f.currentLn >= f.maxLen {
+		return "", io.EOF
 	}
-	f.index += 1
-	return f.Lines[f.index], nil
+	ret:= f.Lines[f.currentLn]
+	f.currentLn += 1
+	return ret, nil
 }
